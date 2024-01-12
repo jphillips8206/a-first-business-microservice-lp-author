@@ -51,9 +51,17 @@ jobs:
           echo -e "Execution Fail!"
           exit 1
         fi
-        resp=$(curl http://localhost:8001/find_rate -X POST -d "12345")
+        resp=$(curl http://localhost:8001/find_rate -X POST -d "35749")
         echo "$resp"
-        if [[ $resp == "0.08" ]]; then
+        if [[ $resp == "0.0900" ]]; then
+          echo -e "Execution Success!"
+        else
+          echo -e "Execution Fail!"
+          exit 1
+        fi        
+        resp=$(curl -v http://localhost:8001/find_rate -X POST -d "12345" 2>&1)
+        echo "$resp"
+        if [[ $resp == *"HTTP/1.1 404 Not Found"* ]]; then
           echo -e "Execution Success!"
         else
           echo -e "Execution Fail!"
